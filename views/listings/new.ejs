@@ -1,0 +1,67 @@
+<% layout('layouts/boilerplate') %>
+
+<body>
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm p-4 rounded-4">
+          <h2 class="mb-4 text-center text-danger fw-bold">Create Your Dream Listing</h2>
+
+          <form action="/listings" method="POST" class="row g-4 needs-validation" novalidate>
+
+            <!-- Title -->
+            <div class="col-12">
+              <label for="title" class="form-label">Listing Title</label>
+              <input type="text" class="form-control" id="title" name="listing[title]" placeholder="Rustic Log Cabin in Montana" required>
+              <div class="invalid-feedback">Please provide a title.</div>
+            </div>
+
+            <!-- Image URL -->
+            <div class="col-12">
+              <label for="image" class="form-label">Image URL</label>
+              <input type="url" class="form-control" id="image" name="listing[image]" placeholder="https://images.unsplash.com/..." required>
+              <div class="invalid-feedback">Please provide a valid image URL.</div>
+            </div>
+
+            <!-- Description -->
+            <div class="col-12">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="listing[description]" rows="3" placeholder="Describe the vibe, space, and surroundings..." required></textarea>
+              <div class="invalid-feedback">Please enter a description.</div>
+            </div>
+
+            <!-- Price -->
+            <div class="col-md-6">
+              <label for="price" class="form-label">Price (USD)</label>
+              <div class="input-group has-validation">
+                <span class="input-group-text bg-light border-end-0">₹</span>
+                <input type="number" class="form-control border-start-0" id="price" name="listing[price]" placeholder="1100" min="0" required>
+                <div class="invalid-feedback">Please enter a valid price.</div>
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div class="col-md-6">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" class="form-control" id="location" name="listing[location]" placeholder="Montana" required>
+              <div class="invalid-feedback">Please enter a location.</div>
+            </div>
+
+            <!-- Country -->
+            <div class="col-12">
+              <label for="country" class="form-label">Country</label>
+              <input type="text" class="form-control" id="country" name="listing[country]" placeholder="United States" required>
+              <div class="invalid-feedback">Please enter a country.</div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-12">
+              <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold">Publish Listing</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
