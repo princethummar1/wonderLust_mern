@@ -4,10 +4,11 @@ const Listing = require('./models/listing');
 const methodOverride = require('method-override');
 const path = require('path');
 const ejsMate = require('ejs-mate');
-const app = express()
-const wrapAsync = require('./utils/wrapAsync')
-const ExpressError  = require('./utils/ExpressError')
+const app = express();
+const wrapAsync = require('./utils/wrapAsync');
+const ExpressError  = require('./utils/ExpressError');
 const {listingSchema} = require('./schema');
+const {reviewSchema} = require('./schema');
 const Listning = require('./models/listing');
 const Review = require('./models/review');
 const review = require('./models/review');
@@ -55,6 +56,19 @@ const validateListing = (req,res,next)=>{
         next()
     }
 }
+
+const validateReview = (req,res,next)=>{
+    let {error} = reviewSchema.validate(req.body);
+    if(error){
+        let errMsg = error.details.map((el)=>{
+            return el.message
+        }).join(',')
+        throw new ExpressError(400,errMsg)
+    }else{
+        next()
+    }
+}
+
 
 // app.get('/testlisting',(req,res)=>{
 //     let sampleListing = Listing({
@@ -136,7 +150,7 @@ app.delete('/listings/:id',wrapAsync(async(req,res)=>{
 
 
 //NOTE:Reviews
-app.post('/listings/:id/review',wrapAsync(async(req,res)=>{
+app.post('/listings/:id/review',validateReview,wrapAsync(async(req,res)=>{
     console.log(`hello`);
     let listing = await Listning.findById(req.params.id);
     let newReview = new Review(req.body.review);
@@ -148,7 +162,7 @@ app.post('/listings/:id/review',wrapAsync(async(req,res)=>{
     await newReview.save();
     await listing.save();
 
-    res.send('Reviews Saved')
+    res.redirect(`/listings/${listing._id}`);
 }))
 
 
@@ -156,7 +170,7 @@ app.post('/listings/:id/review',wrapAsync(async(req,res)=>{
 
 app.use((err, req, res, next) => {
     const { status = 500, message = "Something went wrong" } = err;
-    res.render('error.ejs',{err})
+    res.status(status).render("error.ejs", { err });
 });
 
 
