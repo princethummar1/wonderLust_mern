@@ -7,8 +7,10 @@ const ejsMate = require('ejs-mate');
 const app = express()
 const wrapAsync = require('./utils/wrapAsync')
 const ExpressError  = require('./utils/ExpressError')
-const {listingSchema} = require('./schema')
-
+const {listingSchema} = require('./schema');
+const Listning = require('./models/listing');
+const Review = require('./models/review');
+const review = require('./models/review');
 
 app.use(express.json());
 
@@ -130,6 +132,23 @@ app.delete('/listings/:id',wrapAsync(async(req,res)=>{
     const deleteListing = await Listing.findByIdAndDelete(id);
     console.log(deleteListing)
     res.redirect('/listings')
+}))
+
+
+//NOTE:Reviews
+app.post('/listings/:id/review',wrapAsync(async(req,res)=>{
+    console.log(`hello`);
+    let listing = await Listning.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+
+    console.log(listing)
+
+    listing.reviews.push(newReview); 
+
+    await newReview.save();
+    await listing.save();
+
+    res.send('Reviews Saved')
 }))
 
 
