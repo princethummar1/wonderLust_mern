@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const reiview = require('./reiview');
 
 const Schema = mongoose.Schema
 
@@ -15,7 +16,11 @@ const listingSchema = new Schema({
     },
     price:Number,
     location:String,
-    country:String
+    country:String,
+    reviews:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Review"
+    }
 })
 
 const Listning = mongoose.model('Listing',listingSchema)
