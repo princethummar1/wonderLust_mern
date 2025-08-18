@@ -116,7 +116,7 @@ app.get('/listings/new',(req,res)=>{
 //INFO:Show Route
 app.get('/listings/:id',wrapAsync(async(req,res)=>{
     let {id} =req.params
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate('reviews');
     if(!listing){
         throw new ExpressError(404,'Id Not Found ')
     }
@@ -151,7 +151,6 @@ app.delete('/listings/:id',wrapAsync(async(req,res)=>{
 
 //NOTE:Reviews
 app.post('/listings/:id/review',validateReview,wrapAsync(async(req,res)=>{
-    console.log(`hello`);
     let listing = await Listning.findById(req.params.id);
     let newReview = new Review(req.body.review);
 
@@ -161,11 +160,23 @@ app.post('/listings/:id/review',validateReview,wrapAsync(async(req,res)=>{
 
     await newReview.save();
     await listing.save();
-
+    console.log(listing.reviews[0])
     res.redirect(`/listings/${listing._id}`);
 }))
 
+app.delete('/listings/:id/review/:reviewId',wrapAsync(async(req,res)=>{
+    let listing = await Listning.findById(req.params.id);
+    let {id,reviewId} = req.params
+    console.log(id);
 
+    await Listing.findByIdAndUpdate(id,{$pull: {reviews:reviewId}})
+    let result  = await Review.findByIdAndDelete(reviewId);
+
+    console.log(result)
+
+    res.redirect(`/listings/${listing._id}`);
+
+}))
 
 
 app.use((err, req, res, next) => {

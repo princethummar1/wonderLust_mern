@@ -1,5 +1,7 @@
 const Joi = require('joi');
+const Review = require('./models/review');
 const review = require('./models/review');
+const Listing = require('./models/listing')
 const listingSchema  =  Joi.object({
     listing : Joi.object({
             title:Joi.string().required(),
@@ -17,6 +19,8 @@ const reviewSchema = Joi.object({
     comment:Joi.string().required()
   }).required()
 })
+
+
 
 module.exports = {
   listingSchema
