@@ -1,17 +1,22 @@
 const mongoose = require('mongoose');
 const express = require('express');
-const Listing = require('./models/listing');
+// const Listing = require('./models/listing');
 const methodOverride = require('method-override');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const app = express();
-const wrapAsync = require('./utils/wrapAsync');
+// const wrapAsync = require('./utils/wrapAsync');
 const ExpressError  = require('./utils/ExpressError');
-const {listingSchema} = require('./schema');
-const {reviewSchema} = require('./schema');
-const Listning = require('./models/listing');
-const Review = require('./models/review');
-const review = require('./models/review');
+// const {listingSchema} = require('./schema');
+// const {reviewSchema} = require('./schema');
+// const Listning = require('./models/listing');
+// const Review = require('./models/review');
+const  session = require('express-session')
+
+const listings = require('./routes/listings.js');
+const reviews = require('./routes/review.js')
+
+// const review = require('./models/review');
 
 app.use(express.json());
 
@@ -24,7 +29,9 @@ app.use(methodOverride('_method'))
 app.engine('ejs', ejsMate);  
 
   
-
+app.all('*',(req,res,next)=>{
+    next(new ExpressError(404,'Page Not Fo  und'))
+})
 
 app.use(express.static(path.join(__dirname,`public`)))
 
@@ -40,34 +47,24 @@ async function main(){
  await mongoose.connect(MONGO_URL)
 }
 
+
+const sessionOption ={
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+}
+
+app.use(session(sessionOption))
+
 app.get('/',(req,res)=>{
     res.send('This is Root ')
 })
 
 
-const validateListing = (req,res,next)=>{
-    let {error} = listingSchema.validate(req.body);
-    if(error){
-        let errMsg = error.details.map((el)=>{
-            return el.message
-        }).join(',')
-        throw new ExpressError(400,errMsg)
-    }else{
-        next()
-    }
-}
 
-const validateReview = (req,res,next)=>{
-    let {error} = reviewSchema.validate(req.body);
-    if(error){
-        let errMsg = error.details.map((el)=>{
-            return el.message
-        }).join(',')
-        throw new ExpressError(400,errMsg)
-    }else{
-        next()
-    }
-}
+
+
+
 
 
 // app.get('/testlisting',(req,res)=>{
@@ -85,98 +82,18 @@ const validateReview = (req,res,next)=>{
 
 
 
-//INFO:Index Route
-app.get("/listings", wrapAsync( async(req,res)=>{
-        let allListings = await Listing.find({})
-        // console.log(allListings)
-        res.render(`listings/index.ejs`,{allListings})
 
-    })
-)
-//INFO:Create Route
-app.post("/listings",validateListing,wrapAsync (async(req,res)=>{
-
-    if (!req.body || !req.body.listing)
-    throw new ExpressError(400,'Provide Valid data for Listings')
-    
-        let newListing = new Listing(req.body.listing)
-   await newListing.save()
-   res.redirect('/listings');
-    } )
-)
-
- 
-
-//INFO:New Route
-app.get('/listings/new',(req,res)=>{
-    res.render('listings/new.ejs')
-})
-
-
-//INFO:Show Route
-app.get('/listings/:id',wrapAsync(async(req,res)=>{
-    let {id} =req.params
-    const listing = await Listing.findById(id).populate('reviews');
-    if(!listing){
-        throw new ExpressError(404,'Id Not Found ')
-    }
-
-    res.render('listings/show.ejs',{listing})
-}))
-
-//INFO:Edit Route
-app.get('/listings/:id/edit',wrapAsync(async(req,res)=>{
-     let {id} =req.params
-    const listing = await Listing.findById(id);
-
-    res.render('listings/edit.ejs', {listing})
-}))
-
-//INFO:Update Route
-app.put('/listings/:id',validateListing,wrapAsync(async(req,res)=>{
-    let {id} =req.params
-    let updatedListing = req.body.listing
-    const listing = await Listing.findByIdAndUpdate(id,updatedListing)
-    res.redirect('/listings')
-}))
-
-//INFO:Delete Route
-app.delete('/listings/:id',wrapAsync(async(req,res)=>{
-    let {id} =req.params
-    const deleteListing = await Listing.findByIdAndDelete(id);
-    console.log(deleteListing)
-    res.redirect('/listings')
-}))
-
+app.use('/listings',listings)
 
 //NOTE:Reviews
-app.post('/listings/:id/review',validateReview,wrapAsync(async(req,res)=>{
-    let listing = await Listning.findById(req.params.id);
-    let newReview = new Review(req.body.review);
+app.use('/listings/:id/review',reviews)
 
-    console.log(listing)
 
-    listing.reviews.push(newReview); 
 
-    await newReview.save();
-    await listing.save();
-    console.log(listing.reviews[0])
-    res.redirect(`/listings/${listing._id}`);
-}))
 
-app.delete('/listings/:id/review/:reviewId',wrapAsync(async(req,res)=>{
-    let listing = await Listning.findById(req.params.id);
-    let {id,reviewId} = req.params
-    console.log(id);
 
-    await Listing.findByIdAndUpdate(id,{$pull: {reviews:reviewId}})
-    let result  = await Review.findByIdAndDelete(reviewId);
 
-    console.log(result)
 
-    res.redirect(`/listings/${listing._id}`);
-
-}))
 
 
 app.use((err, req, res, next) => {
