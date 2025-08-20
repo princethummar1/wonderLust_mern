@@ -6,7 +6,7 @@ const ExpressError  = require('../utils/ExpressError');
 const Listing = require('../models/listing');
 const Review = require('../models/review');
 const { merge } = require('./listings');
-
+const flash = require('connect-flash');
 
 
 const validateReview = (req,res,next)=>{
@@ -31,6 +31,7 @@ router.post('/',validateReview,wrapAsync(async(req,res)=>{
     listing.reviews.push(newReview); 
 
     await newReview.save();
+    req.flash('success','Review Added')
     await listing.save();
     console.log(listing.reviews[0])
     res.redirect(`/listings/${listing._id}`);
@@ -40,7 +41,7 @@ router.delete('/:reviewId',wrapAsync(async(req,res)=>{
     let listing = await Listing.findById(req.params.id);
     let {id,reviewId} = req.params
     console.log(id);
-
+    req.flash('success','Review Deleted')
     await Listing.findByIdAndUpdate(id,{$pull: {reviews:reviewId}})
     let result  = await Review.findByIdAndDelete(reviewId);
 

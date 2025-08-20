@@ -4,7 +4,7 @@ const wrapAsync = require('../utils/wrapAsync');
 const {listingSchema} = require('../schema');
 const ExpressError  = require('../utils/ExpressError');
 const Listing = require('../models/listing');
-
+const flash = require('connect-flash');
 
 
 
@@ -34,8 +34,10 @@ router.post("/",validateListing,wrapAsync (async(req,res)=>{
     if (!req.body || !req.body.listing)
     throw new ExpressError(400,'Provide Valid data for Listings')
     
-        let newListing = new Listing(req.body.listing)
+    let newListing = new Listing(req.body.listing)
+    
    await newListing.save()
+   req.flash('success','New Listing Created')
    res.redirect('/listings');
     } )
 )
@@ -53,7 +55,9 @@ router.get('/:id',wrapAsync(async(req,res)=>{
     let {id} =req.params
     const listing = await Listing.findById(id).populate('reviews');
     if(!listing){
-        throw new ExpressError(404,'Id Not Found ')
+        req.flash('error','Listing Does Not Exist!')
+        return res.redirect('/listings')
+        // throw new ExpressError(404,'Id Not Found ')
     }
 
     res.render('listings/show.ejs',{listing})
@@ -63,7 +67,11 @@ router.get('/:id',wrapAsync(async(req,res)=>{
 router.get('/:id/edit',wrapAsync(async(req,res)=>{
      let {id} =req.params
     const listing = await Listing.findById(id);
-
+    if(!listing){
+        req.flash('error','Listing Does Not Exist!')
+        return res.redirect('/listings')
+        // throw new ExpressError(404,'Id Not Found ')
+    }
     res.render('listings/edit.ejs', {listing})
 }))
 

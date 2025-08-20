@@ -17,3 +17,15 @@
     }, false)
   })
 })()
+
+
+
+//Flash - Time Out 
+ setTimeout(() => {
+    const flash = document.getElementById('flash-message');
+    if(flash){
+      flash.classList.remove('show'); // bootstrap fade
+      flash.classList.add('hide');
+      setTimeout(() => flash.remove(), 500); // remove after fade
+    }
+  }, 3000);
