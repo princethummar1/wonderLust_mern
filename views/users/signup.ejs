@@ -1,0 +1,42 @@
+<% layout('layouts/boilerplate') %>
+<body>
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm p-4 rounded-4">
+          <h2 class="mb-4 text-center text-danger fw-bold">Signup To WounderLust</h2>
+
+          <form action="/signup" method="POST" class="row g-4 needs-validation" novalidate>
+
+            <!-- Title -->
+            <div class="col-12">
+              <label for="title" class="form-label">userName</label>
+              <input type="text" class="form-control" id="username" name="username"  required>
+              <div class="invalid-feedback">Enter Valid Username.</div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-12">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email"  required>
+              <div class="invalid-feedback">Enter Valid Email.</div>
+            </div>
+
+            <!-- Password -->
+            <div class="col-12">
+              <label for="password" class="form-label">Password</label>
+              <input type="Password" class="form-control" id="password" name="password"  required>
+              <div class="invalid-feedback">Password is Too Weak.</div>
+            </div>
+
+            <!-- Submit -->
+            <div class="col-12">
+              <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">SignUp</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

@@ -11,11 +11,18 @@ const ExpressError  = require('./utils/ExpressError');
 // const {reviewSchema} = require('./schema');
 // const Listning = require('./models/listing');
 // const Review = require('./models/review');
+
+const User = require('./models/user.js')
+
 const  session = require('express-session')
 const flash = require('connect-flash');
 
-const listings = require('./routes/listings.js');
-const reviews = require('./routes/review.js')
+const listingsRouter = require('./routes/listings.js');
+const reviewsRouter = require('./routes/review.js');
+const userRouter = require('./routes/user.js');
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local')
 
 // const review = require('./models/review');
 
@@ -67,6 +74,14 @@ app.get('/',(req,res)=>{
 
 app.use(session(sessionOption))
 app.use(flash())
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 app.use((req,res,next)=>{
     res.locals.success = req.flash('success');
@@ -74,6 +89,15 @@ app.use((req,res,next)=>{
     next()
 })
 
+
+app.get('/demoUser',async (req,res)=>{
+    let fakeUser = new User({
+        email:'Hello@gmail.com',
+        username:'PrinceThummar'
+    })
+    let newUser = await User.register(fakeUser,'password123')
+    res.send(newUser)
+})
 
 
 // app.get('/testlisting',(req,res)=>{
@@ -92,10 +116,12 @@ app.use((req,res,next)=>{
 
 
 
-app.use('/listings',listings)
+app.use('/listings',listingsRouter)
 
 //NOTE:Reviews
-app.use('/listings/:id/review',reviews)
+app.use('/listings/:id/review',reviewsRouter)
+
+app.use('/',userRouter)
 
 
 
