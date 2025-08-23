@@ -7,6 +7,7 @@ const Listing = require('../models/listing');
 const Review = require('../models/review');
 const { merge } = require('./listings');
 const flash = require('connect-flash');
+const { isLogedin ,isRevieAuthor} = require('../middleware');
 
 
 const validateReview = (req,res,next)=>{
@@ -22,22 +23,20 @@ const validateReview = (req,res,next)=>{
 }
 
 
-router.post('/',validateReview,wrapAsync(async(req,res)=>{
+router.post('/',validateReview,isLogedin,wrapAsync(async(req,res)=>{
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
 
-    console.log(listing)
 
     listing.reviews.push(newReview); 
-
+    newReview.author = req.user._id;
     await newReview.save();
     req.flash('success','Review Added')
     await listing.save();
-    console.log(listing.reviews[0])
     res.redirect(`/listings/${listing._id}`);
 }))
 
-router.delete('/:reviewId',wrapAsync(async(req,res)=>{
+router.delete('/:reviewId',isLogedin,isRevieAuthor,wrapAsync(async(req,res)=>{
     let listing = await Listing.findById(req.params.id);
     let {id,reviewId} = req.params
     console.log(id);

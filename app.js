@@ -21,6 +21,7 @@ const listingsRouter = require('./routes/listings.js');
 const reviewsRouter = require('./routes/review.js');
 const userRouter = require('./routes/user.js');
 
+//NOTE:LOGIN/SIGNUP
 const passport = require('passport');
 const LocalStrategy = require('passport-local')
 
@@ -74,6 +75,7 @@ app.get('/',(req,res)=>{
 
 app.use(session(sessionOption))
 app.use(flash())
+//NOTE:Login/Signup
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -86,10 +88,11 @@ passport.deserializeUser(User.deserializeUser())
 app.use((req,res,next)=>{
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error')
+    res.locals.currentUser = req.user
     next()
 })
 
-
+//NOTE:DEMO
 app.get('/demoUser',async (req,res)=>{
     let fakeUser = new User({
         email:'Hello@gmail.com',
@@ -115,12 +118,13 @@ app.get('/demoUser',async (req,res)=>{
 
 
 
-
+//NOTE:Listings
 app.use('/listings',listingsRouter)
 
 //NOTE:Reviews
 app.use('/listings/:id/review',reviewsRouter)
 
+//Note:Login/singUp
 app.use('/',userRouter)
 
 

@@ -12,6 +12,14 @@
         <a class="nav-link fw-semibold px-3" href="/listings">All Listings</a>
         <a class="nav-link fw-semibold px-3" href="/listings/new">New Listing</a>
       </div>
+      <div class="navbar-nav ms-auto">
+        <% if (currentUser) { %>
+          <a class="nav-link" href="/logout">Logout</a>
+        <% } else { %>
+          <a class="nav-link fw-bold" href="/signup">Sign up</a>
+          <a class="nav-link" href="/login">Log in</a>
+        <% } %>
+      </div>
     </div>
   </div>
 </nav>

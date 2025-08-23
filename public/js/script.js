@@ -28,4 +28,4 @@
       flash.classList.add('hide');
       setTimeout(() => flash.remove(), 500); // remove after fade
     }
-  }, 3000);
+  }, 1500);
