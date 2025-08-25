@@ -8,6 +8,7 @@ const Review = require('../models/review');
 const { merge } = require('./listings');
 const flash = require('connect-flash');
 const { isLogedin ,isRevieAuthor} = require('../middleware');
+const { createReview,destroyReview } = require('../controllers/review');
 
 
 const validateReview = (req,res,next)=>{
@@ -23,31 +24,8 @@ const validateReview = (req,res,next)=>{
 }
 
 
-router.post('/',validateReview,isLogedin,wrapAsync(async(req,res)=>{
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
+router.post('/',validateReview,isLogedin,wrapAsync(createReview))
 
-
-    listing.reviews.push(newReview); 
-    newReview.author = req.user._id;
-    await newReview.save();
-    req.flash('success','Review Added')
-    await listing.save();
-    res.redirect(`/listings/${listing._id}`);
-}))
-
-router.delete('/:reviewId',isLogedin,isRevieAuthor,wrapAsync(async(req,res)=>{
-    let listing = await Listing.findById(req.params.id);
-    let {id,reviewId} = req.params
-    console.log(id);
-    req.flash('success','Review Deleted')
-    await Listing.findByIdAndUpdate(id,{$pull: {reviews:reviewId}})
-    let result  = await Review.findByIdAndDelete(reviewId);
-
-    console.log(result)
-
-    res.redirect(`/listings/${listing._id}`);
-
-}))
+router.delete('/:reviewId',isLogedin,isRevieAuthor,wrapAsync(destroyReview))
 
 module.exports = router
