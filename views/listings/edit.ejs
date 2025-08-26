@@ -7,7 +7,7 @@
         <div class="card border-0 shadow-sm p-4 rounded-4">
           <h2 class="mb-4 text-center text-danger fw-bold">Edit Your Listing</h2>
 
-          <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="row g-4 needs-validation" novalidate>
+          <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="row g-4 needs-validation" enctype="multipart/form-data" novalidate>
 
             <!-- Title -->
             <div class="col-12">
@@ -16,10 +16,20 @@
               <div class="invalid-feedback">Please provide a listing title.</div>
             </div>
 
-            <!-- Image URL -->
-            <div class="col-12">
-              <label for="image" class="form-label">Image URL</label>
-              <input type="url" class="form-control" id="image" name="listing[image]" value="<%= listing.image %>" required>
+            <!-- Image URL --> 
+             <label for="image" class="form-label">Image URL</label>
+            <div class="col-12 m-0">
+              <p class="m-0"><b>Orignal Image</b></p>
+              <img src="<%= lowqimage %>" alt="<%= listing.title %>" class="img  m-2 p-0"  style="width: 110px;" >  
+              <br>
+               <input 
+                type="file" 
+                class="form-control form-fields-wrapper"
+                id="imageFile" 
+                name="listing[image]" 
+                accept=".jpg, .jpeg, .png"
+                value="<%= listing.image %>"
+                >
               <div class="invalid-feedback">Please enter a valid image URL.</div>
             </div>
 

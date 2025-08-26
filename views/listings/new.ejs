@@ -7,7 +7,7 @@
         <div class="card border-0 shadow-sm p-4 rounded-4">
           <h2 class="mb-4 text-center text-danger fw-bold">Create Your Dream Listing</h2>
 
-          <form action="/listings" method="POST" class="row g-4 needs-validation" novalidate>
+          <form action="/listings" method="POST" class="row g-4 needs-validation" enctype="multipart/form-data" novalidate>
 
             <!-- Title -->
             <div class="col-12">
@@ -19,7 +19,13 @@
             <!-- Image URL -->
             <div class="col-12">
               <label for="image" class="form-label">Image URL</label>
-              <input type="url" class="form-control" id="image" name="listing[image]" placeholder="https://images.unsplash.com/..." required>
+              <input 
+                type="file" 
+                id="imageFile" 
+                name="listing[image]" 
+                accept=".jpg, .jpeg, .png"
+                required
+            >
               <div class="invalid-feedback">Please provide a valid image URL.</div>
             </div>
 

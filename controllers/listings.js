@@ -7,11 +7,16 @@ module.exports.index = async(req,res)=>{
 }
 
 module.exports.creatingNewListing = async(req,res)=>{
-
+    let url = req.file.path
+    console.log(url);
     if (!req.body || !req.body.listing)
     throw new ExpressError(400,'Provide Valid data for Listings')
     
     let newListing = new Listing(req.body.listing)
+    newListing.image = {
+        url: req.file.path,
+        filename: req.file.filename
+    };
     newListing.owner = req.user._id
    await newListing.save()
    req.flash('success','New Listing Created')
@@ -42,12 +47,21 @@ module.exports.renderEditFrom = async(req,res)=>{
         return res.redirect('/listings')
         // throw new ExpressError(404,'Id Not Found ')
     }
-    res.render('listings/edit.ejs', {listing})
+    let blurImage = listing.image.url
+    let lowqimage = blurImage.replace('upload/','upload/o_30/')
+    res.render('listings/edit.ejs', {listing,lowqimage})
 }
 
 module.exports.updatedListing = async(req,res)=>{
     let {id} =req.params
     let updatedListing = req.body.listing
+
+    if(req.file){
+        let url = req.file.path;
+        let filename = req.file.filename;
+        updatedListing.image = {url,filename}
+    }
+
     const listing = await Listing.findByIdAndUpdate(id,updatedListing)
     res.redirect('/listings')
 }
