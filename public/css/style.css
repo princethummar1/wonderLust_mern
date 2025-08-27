@@ -1,8 +1,8 @@
-body{
-    font-family: "Plus Jakarta Sans", sans-serif !important;
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
 }
 .navbar {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1rem;
 }
 
@@ -14,25 +14,26 @@ body{
 
 .nav-link:hover {
   background-color: #f1f1f1;
-  color: #FF385C !important;
+  color: #ff385c !important;
 }
 
 .navbar-brand {
   font-size: 1.2rem;
-  color: #FF385C !important;
+  color: #ff385c !important;
 }
 
 .navbar .nav-link.active {
-  color: #FF385C !important;
+  color: #ff385c !important;
   font-weight: 600;
 }
 
 /* Footer css */
-.footer {
-  font-family: 'Inter', sans-serif;
+footer {
+  font-family: "Inter", sans-serif;
   font-size: 0.95rem;
-  background-color: #ffffff;
+  background-color: #f10000;
   position: static;
+  bottom: 0px;
 }
 
 .f-info-socials i {
@@ -40,12 +41,12 @@ body{
 }
 
 .f-info-socials i:hover {
-  color: #FF385C;
+  color: #ff385c;
   transform: scale(1.2);
 }
 
 .f-info-links a:hover {
-  color: #FF385C;
+  color: #ff385c;
 }
 
 @media (max-width: 576px) {
@@ -115,7 +116,7 @@ form textarea {
 
 form input:focus,
 form textarea:focus {
-  border-color: #FF385C;
+  border-color: #ff385c;
   box-shadow: 0 0 0 0.2rem rgba(255, 56, 92, 0.1);
 }
 
@@ -128,7 +129,7 @@ form textarea:focus {
 /* public/css/style.css */
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   background-color: #f9f9f9;
   color: #333;
 }
@@ -158,31 +159,15 @@ body {
   border-radius: 0.5rem;
 }
 
-
-/* some image */
-.edit-form-container {
-    display: flex;
-    flex-wrap: wrap; /* Allows items to stack on small screens */
-    gap: 30px;       /* Creates space between the image and the form fields */
-    align-items: flex-start; /* Aligns items to the top */
+.filter{
+  opacity: 0.6;
+  /* width: 80px; */
+  /* border: 2px solid black; */
 }
-
-/* Container for the image column */
-.image-preview-wrapper {
-    flex: 1; /* Allows it to grow */
-    min-width: 250px; /* Ensures it doesn't get too squished */
+.filter:hover{
+  opacity: 1;
+  cursor: pointer;
 }
-
-/* Styling for the image itself */
-.side-by-side-image {
-    width: 100%;      /* Makes the image fill its container */
-    height: auto;     /* Maintains the aspect ratio */
-    border-radius: 8px; /* Adds soft corners */
-    object-fit: cover;
-}
-
-/* Container for the form fields column */
-.form-fields-wrapper {
-    flex: 2; /* Makes this column twice as wide as the image column */
-    min-width: 300px; /* Minimum width before wrapping */
+.filter p{
+  font-size: 0.8rem;
 }
