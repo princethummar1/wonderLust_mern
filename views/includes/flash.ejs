@@ -1,13 +1,27 @@
-<% if(success && success.length > 0) { %>
-  <div id="flash-message" class="alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3 shadow" role="alert" style="z-index: 1080;">
-    <%= success %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-<% } %>
+<div class="flash-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
 
-<% if(error && error.length > 0) { %>
-  <div id="flash-message" class="alert alert-danger alert-dismissible fade show position-fixed top-0 end-0 m-3 shadow" role="alert" style="z-index: 1080;">
-    <%= error %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-<% } %>
+  <% if(success && success.length) { %>
+    <div class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="fa-solid fa-circle-check me-2"></i>
+          <%= success %>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  <% } %>
+
+  <% if(error && error.length) { %>
+    <div class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="fa-solid fa-circle-xmark me-2"></i>
+          <%= error %>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  <% } %>
+
+</div>

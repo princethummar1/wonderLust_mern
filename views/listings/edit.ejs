@@ -1,77 +1,286 @@
 <% layout('layouts/boilerplate') %>
 
-<body>
-  <div class="container my-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="card border-0 shadow-sm p-4 rounded-4">
-          <h2 class="mb-4 text-center text-danger fw-bold">Edit Your Listing</h2>
+  <body>
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm p-4 rounded-4">
+            <h2 class="mb-4 text-center text-danger fw-bold">Edit Your Listing</h2>
 
-          <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="row g-4 needs-validation" enctype="multipart/form-data" novalidate>
+            <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" class="row g-4 needs-validation"
+              enctype="multipart/form-data" novalidate>
 
-            <!-- Title -->
-            <div class="col-12">
-              <label for="title" class="form-label">Listing Title</label>
-              <input type="text" class="form-control" id="title" name="listing[title]" value="<%= listing.title %>" required>
-              <div class="invalid-feedback">Please provide a listing title.</div>
-            </div>
-
-            <!-- Image URL --> 
-             <label for="image" class="form-label">Image Upload</label>
-            <div class="col-12 m-0">
-              <p class="m-0"><b>Orignal Image</b></p>
-              <img src="<%= lowqimage %>" alt="<%= listing.title %>" class="img  m-2 p-0"  style="width: 110px;" >  
-              <br>
-               <input 
-                type="file" 
-                class="form-control form-fields-wrapper"
-                id="imageFile" 
-                name="listing[image]" 
-                accept=".jpg, .jpeg, .png"
-                value="<%= listing.image %>"
-                >
-              <div class="invalid-feedback">Please enter a valid image URL.</div>
-            </div>
-
-            <!-- Description -->
-            <div class="col-12">
-              <label for="description" class="form-label">Description</label>
-              <textarea class="form-control" id="description" name="listing[description]" rows="3" required><%= listing.description %></textarea>
-              <div class="invalid-feedback">Please add a description.</div>
-            </div>
-
-            <!-- Price -->
-            <div class="col-md-6">
-              <label for="price" class="form-label">Price (RUPEES)</label>
-              <div class="input-group has-validation">
-                <span class="input-group-text bg-light border-end-0">₹</span>
-                <input type="number" class="form-control border-start-0" id="price" name="listing[price]" value="<%= listing.price %>" min="0" required>
-                <div class="invalid-feedback">Please enter a valid price.</div>
+              <div class="col-12">
+                <label for="title" class="form-label">Listing Title</label>
+                <input type="text" class="form-control" id="title" name="listing[title]" value="<%= listing.title %>"
+                  required>
               </div>
-            </div>
 
-            <!-- Location -->
-            <div class="col-md-6">
-              <label for="location" class="form-label">Location</label>
-              <input type="text" class="form-control" id="location" name="listing[location]" value="<%= listing.location %>" required>
-              <div class="invalid-feedback">Please provide a location.</div>
-            </div>
+              <div class="col-12">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="listing[description]" rows="3"
+                  required><%= listing.description %></textarea>
+              </div>
 
-            <!-- Country -->
-            <div class="col-12">
-              <label for="country" class="form-label">Country</label>
-              <input type="text" class="form-control" id="country" name="listing[country]" value="<%= listing.country %>" required>
-              <div class="invalid-feedback">Please enter the country name.</div>
-            </div>
+              <div class="col-12">
+                <label class="form-label fw-bold">Manage Images</label>
+                <div class="row g-2 mb-3">
+                  <% listing.image.forEach((img, index)=> { %>
+                    <% if (img && img.url) { %>
+                      <div class="col-auto">
+                        <div class="position-relative">
+                          <img src="<%= img.url.replace('/upload', '/upload/w_150') %>" class="img-thumbnail"
+                            style="width: 150px; height: 100px; object-fit: cover;" alt="Listing Image">
+                          <div
+                            class="form-check position-absolute top-0 end-0 p-2 bg-white bg-opacity-75 rounded-bottom-left">
+                            <input class="form-check-input" type="checkbox" name="deleteImages[]"
+                              value="<%= img.filename %>" id="image-<%= index %>">
+                            <label class="form-check-label" for="image-<%= index %>">Delete</label>
+                          </div>
+                        </div>
+                      </div>
+                      <% } %>
+                        <% }) %>
+                </div>
+                <div>
+                  <label for="imageUpload" class="form-label">Upload New Images</label>
+                  <input class="form-control" type="file" id="imageUpload" name="listing[image]" multiple>
+                </div>
+              </div>
 
-            <!-- Submit -->
-            <div class="col-12">
-              <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold">Confirm Edit</button>
-            </div>
+              <div class="col-md-6">
+                <label for="price" class="form-label">Price</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light">₹</span>
+                  <input type="number" class="form-control" id="price" name="listing[price]"
+                    value="<%= listing.price %>" min="0" required>
+                </div>
+              </div>
 
-          </form>
+              <div class="col-md-6">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="listing[location]"
+                  value="<%= listing.location %>" required>
+              </div>
+
+              <div class="col-12">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" class="form-control" id="country" name="listing[country]"
+                  value="<%= listing.country %>" required>
+              </div>
+
+              <hr class="my-3">
+
+              <div class="col-md-6">
+                <label class="form-label">Purpose</label>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="listing[purpose]" id="purpose-sell" value="Sell"
+                      <%=listing.purpose==='Sell' ? 'checked' : '' %> required>
+                    <label class="form-check-label" for="purpose-sell">Sell</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="listing[purpose]" id="purpose-rent" value="Rent"
+                      <%=listing.purpose==='Rent' ? 'checked' : '' %> required>
+                    <label class="form-check-label" for="purpose-rent">Rent</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="usage" class="form-label">Usage Type</label>
+                <select class="form-select" id="usage" name="listing[usage]" required>
+                  <option value="Residential" <%=listing.usage==='Residential' ? 'selected' : '' %>>Residential</option>
+                  <option value="Commercial" <%=listing.usage==='Commercial' ? 'selected' : '' %>>Commercial</option>
+                  <option value="Hospitality" <%=listing.usage==='Hospitality' ? 'selected' : '' %>>Hospitality</option>
+                  <option value="Land/Other" <%=listing.usage==='Land/Other' ? 'selected' : '' %>>Land/Other</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label for="propertyType" class="form-label">Property Type</label>
+                <select class="form-select" id="propertyType" name="listing[propertyType]" required>
+                  <option value="<%= listing.propertyType %>" selected data-usage="<%= listing.usage %>">
+                    <%= listing.propertyType %>
+                  </option>
+                </select>
+              </div>
+
+              <div id="dynamic-fields-container" class="row g-4 mx-0">
+                <% const residential=listing.residential || {}; const commercial=listing.commercial || {}; const
+                  hospitality=listing.hospitality || {}; const land=listing.land || {}; %>
+
+                  <div id="residential-fields" class="conditional-fields row g-4">
+                    <div class="col-md-6">
+                      <label class="form-label">Size (sqft)</label>
+                      <input type="number" class="form-control" name="listing[residential][size]"
+                        value="<%= residential.size %>">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Furnishing</label>
+                      <select class="form-select" name="listing[residential][furnishing]">
+                        <option value="Unfurnished" <%=residential.furnishing==='Unfurnished' ? 'selected' : '' %>
+                          >Unfurnished</option>
+                        <option value="Semi-Furnished" <%=residential.furnishing==='Semi-Furnished' ? 'selected' : '' %>
+                          >Semi-Furnished</option>
+                        <option value="Furnished" <%=residential.furnishing==='Furnished' ? 'selected' : '' %>>Furnished
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label">Amenities</label>
+                      <div>
+                        <input class="form-check-input" type="checkbox" name="listing[residential][amenities][]"
+                          value="Pool" <%=residential.amenities && residential.amenities.includes('Pool') ? 'checked'
+                          : '' %>>
+                        <label class="form-check-label me-3">Pool</label>
+
+                        <input class="form-check-input" type="checkbox" name="listing[residential][amenities][]"
+                          value="Gym" <%=residential.amenities && residential.amenities.includes('Gym') ? 'checked' : ''
+                          %>>
+                        <label class="form-check-label me-3">Gym</label>
+
+                        <input class="form-check-input" type="checkbox" name="listing[residential][amenities][]"
+                          value="Parking" <%=residential.amenities && residential.amenities.includes('Parking')
+                          ? 'checked' : '' %>>
+                        <label class="form-check-label me-3">Parking</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="commercial-fields" class="conditional-fields row g-4">
+                    <div class="col-md-6">
+                      <label class="form-label">Size (sqft)</label>
+                      <input type="number" class="form-control" name="listing[commercial][size]"
+                        value="<%= commercial.size %>">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Parking Spaces</label>
+                      <input type="number" class="form-control" name="listing[commercial][parkingSpaces]"
+                        value="<%= commercial.parkingSpaces %>">
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label">Amenities</label>
+                      <div>
+                        <input class="form-check-input" type="checkbox" name="listing[commercial][amenities][]"
+                          value="Central AC" <%=commercial.amenities && commercial.amenities.includes('Central AC')
+                          ? 'checked' : '' %>>
+                        <label class="form-check-label me-3">Central AC</label>
+
+                        <input class="form-check-input" type="checkbox" name="listing[commercial][amenities][]"
+                          value="Power Backup" <%=commercial.amenities && commercial.amenities.includes('Power Backup')
+                          ? 'checked' : '' %>>
+                        <label class="form-check-label me-3">Power Backup</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="hospitality-fields" class="conditional-fields row g-4">
+                    <div class="col-md-6">
+                      <label class="form-label">Number of Rooms</label>
+                      <input type="number" class="form-control" name="listing[hospitality][rooms]"
+                        value="<%= hospitality.rooms %>">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Star Rating</label>
+                      <input type="number" class="form-control" name="listing[hospitality][starRating]"
+                        value="<%= hospitality.starRating %>">
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label">Amenities</label>
+                      <div>
+                        <input class="form-check-input" type="checkbox" name="listing[hospitality][amenities][]"
+                          value="Restaurant" <%=hospitality.amenities && hospitality.amenities.includes('Restaurant')
+                          ? 'checked' : '' %>>
+                        <label class="form-check-label me-3">Restaurant</label>
+
+                        <input class="form-check-input" type="checkbox" name="listing[hospitality][amenities][]"
+                          value="Bar" <%=hospitality.amenities && hospitality.amenities.includes('Bar') ? 'checked' : ''
+                          %>>
+                        <label class="form-check-label me-3">Bar</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="land-fields" class="conditional-fields row g-4">
+                    <div class="col-md-6">
+                      <label class="form-label">Plot Size</label>
+                      <input type="number" class="form-control" name="listing[land][plotSize]"
+                        value="<%= land.plotSize %>">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Plot Unit</label>
+                      <select class="form-select" name="listing[land][plotUnit]">
+                        <option value="sqft" <%=land.plotUnit==='sqft' ? 'selected' : '' %>>Square Feet</option>
+                        <option value="sqyd" <%=land.plotUnit==='sqyd' ? 'selected' : '' %>>Square Yards</option>
+                        <option value="acre" <%=land.plotUnit==='acre' ? 'selected' : '' %>>Acres</option>
+                        <option value="hectare" <%=land.plotUnit==='hectare' ? 'selected' : '' %>>Hectares</option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold">Save Changes</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const usageSelect = document.getElementById('usage');
+        const propertyTypeSelect = document.getElementById('propertyType');
+        const conditionalFields = document.querySelectorAll('.conditional-fields');
+
+        // Store all possible property types in an object for easy access
+        const propertyTypesByUsage = {
+          'Residential': ["Apartment", "Villa", "Studio", "Independent House", "Plot"],
+          'Commercial': ["Office", "Shop", "Showroom", "Warehouse", "Industrial Unit"],
+          'Hospitality': ["Hotel", "Resort", "Guest House", "Hostel", "Service Apartment"],
+          'Land/Other': ["Agricultural Land", "Co-working", "Storage Unit", "Special Purpose"]
+        };
+
+        function updateForm(selectedUsage) {
+          // 1. Hide all conditional field sections
+          conditionalFields.forEach(fieldSet => {
+            fieldSet.style.display = 'none';
+          });
+
+          // 2. Show the relevant field section
+          if (selectedUsage) {
+            const targetId = `${selectedUsage.toLowerCase().replace('/other', '')}-fields`;
+            const targetFields = document.getElementById(targetId);
+            if (targetFields) {
+              targetFields.style.display = 'flex';
+            }
+          }
+
+          // 3. Update and filter the Property Type dropdown
+          const currentPropertyValue = propertyTypeSelect.value;
+          propertyTypeSelect.innerHTML = ''; // Clear current options
+
+          const relevantTypes = propertyTypesByUsage[selectedUsage] || [];
+          relevantTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            if (type === currentPropertyValue) {
+              option.selected = true; // Re-select the saved value
+            }
+            propertyTypeSelect.appendChild(option);
+          });
+        }
+
+        // Add event listener for changes
+        usageSelect.addEventListener('change', function () {
+          updateForm(this.value);
+        });
+
+        // **CRUCIAL FOR EDIT PAGE**: Trigger the function on page load
+        // to set the initial state based on the existing listing data.
+        updateForm(usageSelect.value);
+      });
+    </script>
+  </body>

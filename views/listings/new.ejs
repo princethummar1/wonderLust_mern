@@ -7,38 +7,28 @@
         <div class="card border-0 shadow-sm p-4 rounded-4">
           <h2 class="mb-4 text-center text-danger fw-bold">Create Your Dream Listing</h2>
 
-          <form action="/listings" method="POST" class="row g-4 needs-validation" enctype="multipart/form-data" novalidate>
+          <form action="/listings" method="POST" class="row g-4 needs-validation" enctype="multipart/form-data"  novalidate>
 
-            <!-- Title -->
             <div class="col-12">
               <label for="title" class="form-label">Listing Title</label>
-              <input type="text" class="form-control" id="title" name="listing[title]" placeholder="Rustic Log Cabin in Montana" required>
+              <input type="text" class="form-control" id="title" name="listing[title]" placeholder="e.g., Modern Downtown Loft" required>
               <div class="invalid-feedback">Please provide a title.</div>
             </div>
 
-            <!-- Image URL -->
-            <div class="col-12">
-              <label for="image" class="form-label">Image URL</label>
-              <input 
-                type="file" 
-                id="imageFile" 
-                name="listing[image]" 
-                accept=".jpg, .jpeg, .png"
-                required
-            >
-              <div class="invalid-feedback">Please provide a valid image URL.</div>
-            </div>
-
-            <!-- Description -->
             <div class="col-12">
               <label for="description" class="form-label">Description</label>
               <textarea class="form-control" id="description" name="listing[description]" rows="3" placeholder="Describe the vibe, space, and surroundings..." required></textarea>
               <div class="invalid-feedback">Please enter a description.</div>
             </div>
+            
+            <div class="col-12">
+                <label for="image" class="form-label">Upload Image</label>
+                <input class="form-control" type="file" id="image" name="listing[image]" required multiple>
+                <div class="invalid-feedback">Please upload an image for the listing.</div>
+            </div>
 
-            <!-- Price -->
             <div class="col-md-6">
-              <label for="price" class="form-label">Price (USD)</label>
+              <label for="price" class="form-label">Price</label>
               <div class="input-group has-validation">
                 <span class="input-group-text bg-light border-end-0">₹</span>
                 <input type="number" class="form-control border-start-0" id="price" name="listing[price]" placeholder="1100" min="0" required>
@@ -46,22 +36,154 @@
               </div>
             </div>
 
-            <!-- Location -->
             <div class="col-md-6">
               <label for="location" class="form-label">Location</label>
-              <input type="text" class="form-control" id="location" name="listing[location]" placeholder="Montana" required>
+              <input type="text" class="form-control" id="location" name="listing[location]" placeholder="e.g., Mumbai" required>
               <div class="invalid-feedback">Please enter a location.</div>
             </div>
 
-            <!-- Country -->
             <div class="col-12">
               <label for="country" class="form-label">Country</label>
-              <input type="text" class="form-control" id="country" name="listing[country]" placeholder="United States" required>
+              <input type="text" class="form-control" id="country" name="listing[country]" placeholder="e.g., India" required>
               <div class="invalid-feedback">Please enter a country.</div>
             </div>
 
-            <!-- Submit Button -->
+            <hr class="my-3">
             <div class="col-12">
+                <label class="form-label mb-2">Purpose</label>
+                <div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="listing[purpose]" id="purpose-sell" value="Sell" required>
+                        <label class="form-check-label" for="purpose-sell">Sell</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="listing[purpose]" id="purpose-rent" value="Rent" required>
+                        <label class="form-check-label" for="purpose-rent">Rent</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="usage" class="form-label">Usage Type</label>
+                <select class="form-select" id="usage" name="listing[usage]" required>
+                    <option selected disabled value="">Choose...</option>
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Hospitality">Hospitality</option>
+                    <option value="Land/Other">Land/Other</option>
+                </select>
+                <div class="invalid-feedback">Please select a usage type.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="propertyType" class="form-label">Property Type</label>
+                <select class="form-select" id="propertyType" name="listing[propertyType]" required>
+                    <option selected disabled value="" data-usage="">Select a usage first...</option>
+                    <option value="Apartment" data-usage="Residential">Apartment</option>
+                    <option value="Villa" data-usage="Residential">Villa</option>
+                    <option value="Studio" data-usage="Residential">Studio</option>
+                    <option value="Independent House" data-usage="Residential">Independent House</option>
+                    <option value="Plot" data-usage="Residential">Plot</option>
+                    <option value="Office" data-usage="Commercial">Office</option>
+                    <option value="Shop" data-usage="Commercial">Shop</option>
+                    <option value="Showroom" data-usage="Commercial">Showroom</option>
+                    <option value="Warehouse" data-usage="Commercial">Warehouse</option>
+                    <option value="Industrial Unit" data-usage="Commercial">Industrial Unit</option>
+                    <option value="Hotel" data-usage="Hospitality">Hotel</option>
+                    <option value="Resort" data-usage="Hospitality">Resort</option>
+                    <option value="Guest House" data-usage="Hospitality">Guest House</option>
+                    <option value="Hostel" data-usage="Hospitality">Hostel</option>
+                    <option value="Service Apartment" data-usage="Hospitality">Service Apartment</option>
+                    <option value="Agricultural Land" data-usage="Land/Other">Agricultural Land</option>
+                    <option value="Co-working" data-usage="Land/Other">Co-working</option>
+                    <option value="Storage Unit" data-usage="Land/Other">Storage Unit</option>
+                    <option value="Special Purpose" data-usage="Land/Other">Special Purpose</option>
+                </select>
+                <div class="invalid-feedback">Please select a property type.</div>
+            </div>
+
+            <div id="dynamic-fields-container" class="row g-4 mx-0">
+                
+                <div id="residential-fields" class="conditional-fields row g-4" style="display: none;">
+                    <div class="col-md-6">
+                        <label for="residential-size" class="form-label">Size (in sqft)</label>
+                        <input type="number" class="form-control" id="residential-size" name="listing[residential][size]" min="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="residential-furnishing" class="form-label">Furnishing</label>
+                        <select class="form-select" id="residential-furnishing" name="listing[residential][furnishing]">
+                            <option value="Unfurnished">Unfurnished</option>
+                            <option value="Semi-Furnished">Semi-Furnished</option>
+                            <option value="Furnished">Furnished</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Amenities</label>
+                        <div>
+                            <input type="checkbox" class="form-check-input" name="listing[residential][amenities][]" value="Pool" id="res-pool"> <label for="res-pool" class="form-check-label me-3">Pool</label>
+                            <input type="checkbox" class="form-check-input" name="listing[residential][amenities][]" value="Gym" id="res-gym"> <label for="res-gym" class="form-check-label me-3">Gym</label>
+                            <input type="checkbox" class="form-check-input" name="listing[residential][amenities][]" value="Parking" id="res-parking"> <label for="res-parking" class="form-check-label me-3">Parking</label>
+                            <input type="checkbox" class="form-check-input" name="listing[residential][amenities][]" value="Security" id="res-security"> <label for="res-security" class="form-check-label me-3">Security</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="commercial-fields" class="conditional-fields row g-4" style="display: none;">
+                    <div class="col-md-6">
+                        <label for="commercial-size" class="form-label">Size (in sqft)</label>
+                        <input type="number" class="form-control" id="commercial-size" name="listing[commercial][size]" min="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="commercial-parking" class="form-label">Parking Spaces</label>
+                        <input type="number" class="form-control" id="commercial-parking" name="listing[commercial][parkingSpaces]" min="0">
+                    </div>
+                     <div class="col-12">
+                        <label class="form-label">Amenities</label>
+                        <div>
+                            <input type="checkbox" class="form-check-input" name="listing[commercial][amenities][]" value="Central AC" id="com-ac"> <label for="com-ac" class="form-check-label me-3">Central AC</label>
+                            <input type="checkbox" class="form-check-input" name="listing[commercial][amenities][]" value="Power Backup" id="com-power"> <label for="com-power" class="form-check-label me-3">Power Backup</label>
+                            <input type="checkbox" class="form-check-input" name="listing[commercial][amenities][]" value="Elevator" id="com-elevator"> <label for="com-elevator" class="form-check-label me-3">Elevator</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hospitality-fields" class="conditional-fields row g-4" style="display: none;">
+                    <div class="col-md-6">
+                        <label for="hospitality-rooms" class="form-label">Number of Rooms</label>
+                        <input type="number" class="form-control" id="hospitality-rooms" name="listing[hospitality][rooms]" min="1">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="hospitality-rating" class="form-label">Star Rating</label>
+                        <input type="number" class="form-control" id="hospitality-rating" name="listing[hospitality][starRating]" min="1" max="7">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Amenities</label>
+                        <div>
+                            <input type="checkbox" class="form-check-input" name="listing[hospitality][amenities][]" value="Restaurant" id="hos-res"> <label for="hos-res" class="form-check-label me-3">Restaurant</label>
+                            <input type="checkbox" class="form-check-input" name="listing[hospitality][amenities][]" value="Bar" id="hos-bar"> <label for="hos-bar" class="form-check-label me-3">Bar</label>
+                            <input type="checkbox" class="form-check-input" name="listing[hospitality][amenities][]" value="Conference Hall" id="hos-conf"> <label for="hos-conf" class="form-check-label me-3">Conference Hall</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="land-fields" class="conditional-fields row g-4" style="display: none;">
+                    <div class="col-md-6">
+                        <label for="land-size" class="form-label">Plot Size</label>
+                        <input type="number" class="form-control" id="land-size" name="listing[land][plotSize]" min="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="land-unit" class="form-label">Plot Unit</label>
+                        <select class="form-select" id="land-unit" name="listing[land][plotUnit]">
+                            <option value="sqft">Square Feet</option>
+                            <option value="sqyd">Square Yards</option>
+                            <option value="acre">Acres</option>
+                            <option value="hectare">Hectares</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12 mt-4">
               <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold">Publish Listing</button>
             </div>
 
@@ -70,4 +192,59 @@
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const usageSelect = document.getElementById('usage');
+        const propertyTypeSelect = document.getElementById('propertyType');
+        const allPropertyTypeOptions = Array.from(propertyTypeSelect.options);
+        const conditionalFields = document.querySelectorAll('.conditional-fields');
+
+        usageSelect.addEventListener('change', function() {
+            const selectedUsage = this.value;
+
+            // 1. Hide all conditional field sections
+            conditionalFields.forEach(fieldSet => {
+                fieldSet.style.display = 'none';
+            });
+
+            // 2. Show the relevant field section
+            if (selectedUsage) {
+                const targetFields = document.getElementById(`${selectedUsage.toLowerCase().replace('/other', '')}-fields`);
+                if (targetFields) {
+                    targetFields.style.display = 'flex'; // Use flex to align items correctly in a row
+                }
+            }
+
+            // 3. Filter the Property Type dropdown
+            // Clear current options
+            propertyTypeSelect.innerHTML = ''; 
+            
+            // Add a default placeholder
+            const placeholder = document.createElement('option');
+            placeholder.value = "";
+            placeholder.textContent = "Choose a property type...";
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            propertyTypeSelect.appendChild(placeholder);
+
+            // Add back only the relevant options
+            allPropertyTypeOptions.forEach(option => {
+                if (option.dataset.usage === selectedUsage) {
+                    propertyTypeSelect.appendChild(option);
+                }
+            });
+        });
+        
+        // Initial state on page load (hide all extras)
+        allPropertyTypeOptions.forEach(option => option.remove());
+        const placeholder = document.createElement('option');
+        placeholder.value = "";
+        placeholder.textContent = "Select a usage first...";
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        propertyTypeSelect.appendChild(placeholder);
+    });
+  </script>
+
 </body>

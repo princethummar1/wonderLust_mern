@@ -1,122 +1,263 @@
+/* =================================
+   1. CSS Variables & General Styles
+   ================================= */
+:root {
+  --primary-color: #ff385c;
+  --text-dark: #222;
+  --text-light: #444;
+  --background-light: #f9f9f9;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-heading: "Inter", sans-serif;
+}
+
 body {
-  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-family: var(--font-body);
+  background-color: var(--background-light);
+  color: var(--text-dark);
 }
+
+
+/* =================================
+   2. Navbar
+   ================================= */
 .navbar {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-heading);
   font-size: 1rem;
-}
-
-.nav-link {
-  color: #444 !important;
-  transition: color 0.3s ease, background-color 0.3s ease;
-  border-radius: 0.5rem;
-}
-
-.nav-link:hover {
-  background-color: #f1f1f1;
-  color: #ff385c !important;
 }
 
 .navbar-brand {
   font-size: 1.2rem;
-  color: #ff385c !important;
+  color: var(--primary-color) !important;
+}
+
+.nav-link {
+  color: var(--text-light) !important;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-radius: var(--border-radius-md);
+}
+
+.nav-link:hover {
+  background-color: #f1f1f1;
+  color: var(--primary-color) !important;
 }
 
 .navbar .nav-link.active {
-  color: #ff385c !important;
+  color: var(--primary-color) !important;
   font-weight: 600;
 }
 
-/* Footer css */
-footer {
-  font-family: "Inter", sans-serif;
-  font-size: 0.95rem;
-  background-color: #f10000;
-  position: static;
-  bottom: 0px;
+
+/* =================================
+   Filter Bar Styling
+   ================================= */
+
+/* Container for the filter icons */
+#filters {
+  border-bottom: 1px solid #dee2e6; /* Adds a subtle separator line */
+  padding-bottom: 1.5rem;
+  /* Allows horizontal scrolling on small screens instead of wrapping */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Hides scrollbar for Firefox */
 }
 
-.f-info-socials i {
-  transition: color 0.3s ease, transform 0.3s ease;
+/* Hides scrollbar for Chrome, Safari, and Opera */
+#filters::-webkit-scrollbar {
+  display: none;
 }
 
-.f-info-socials i:hover {
-  color: #ff385c;
-  transform: scale(1.2);
+/* Individual filter item */
+.filter {
+  opacity: 0.7;
+  transition: all 0.2s ease-in-out;
+  min-width: 80px; /* Prevents text from wrapping awkwardly */
 }
 
-.f-info-links a:hover {
-  color: #ff385c;
+.filter:hover {
+  opacity: 1;
+  transform: translateY(-3px); /* Adds a slight lift effect */
+  cursor: pointer;
 }
 
-@media (max-width: 576px) {
-  .f-info {
-    flex-direction: column;
-    gap: 10px;
+.filter i {
+  font-size: 1.5rem; /* Makes icons slightly larger */
+}
+
+.filter p {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+/* =================================
+   Filter Carousel Styling
+   ================================= */
+
+.filter-carousel-container {
+  /* Aligns the arrows vertically in the middle */
+  display: flex;
+  align-items: center;
+}
+
+#filter-scroll-container {
+  /* Core functionality for horizontal scrolling */
+  overflow-x: auto;
+  scroll-behavior: smooth; /* Makes the scroll animated */
+  
+  /* Hides the default scrollbar */
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+}
+
+/* For Chrome, Safari, and Opera */
+#filter-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-arrow {
+  /* Positions the arrows */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  
+  /* Styling */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#filter-arrow-left {
+  left: -20px; /* Positions the left arrow */
+}
+
+#filter-arrow-right {
+  right: -20px; /* Positions the right arrow */
+}
+
+/* Individual filter item styles (from previous step, can be reused) */
+.filter {
+  opacity: 0.7;
+  transition: all 0.2s ease-in-out;
+  min-width: 80px;
+  margin: 5px;
+}
+.filter:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+.filter i { font-size: 1.5rem; }
+.filter p { font-size: 0.8rem; font-weight: 500; margin-bottom: 0; }
+
+/* Fix for carousel width calculation inside a flex container */
+.filter-carousel-container {
+  min-width: 0;
+}
+
+/* Wrapper for the filter button to handle responsive width */
+.filter-button-wrapper {
+  /* On medium screens and up, width is determined by content */
+  @media (min-width: 768px) {
+    width: auto;
   }
 }
-/* Index Page */
-.card-image-wrapper {
-  height: 200px;
-  overflow: hidden;
-  position: relative;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+
+/* Ensure border and padding only apply on larger screens */
+.border-md-start {
+  border-left: none;
+}
+@media (min-width: 768px) {
+  .border-md-start {
+    border-left: 1px solid #dee2e6 !important;
+    padding-left: 1.5rem !important;
+  }
 }
 
-/* Responsive image crop */
-.listing-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+/* =================================
+   Main Heading & Card Grid
+   ================================= */
+
+/* Main Page Title */
+.page-title {
+  margin-top: 2rem; /* Adds space between the filter bar and title */
 }
 
+/* Card Styling Refinements */
 .listing-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 1rem;
-  height: 100%;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  overflow: hidden;
 }
 
 .listing-card:hover {
-  transform: scale(1.01);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transform: scale(1.03);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Price tag style */
-.price-badge {
+.listing-img {
+  height: 220px; /* Slightly taller for a more premium feel */
+  object-fit: cover;
+  width: 100%;
+}
+
+.card-body {
+  padding: 1rem; /* Consistent padding */
+}
+
+/* Ensures the stretched link doesn't interfere with other elements */
+.listing-card .stretched-link::after {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: #dc3545;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  font-size: 0.9rem;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
+}
+/* For Show Page Image */
+/* In your style.css file */
+
+.show-page-img {
+  height: 550px; /* You can adjust this height */
+  object-fit: cover;
+  width: 100%;
 }
 
-/* Title wraps only one line */
-.card-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  white-space: nowrap;
+
+.show-img-wrapper {
+  height: 350px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  background-color: #eee;
+  border-radius: var(--border-radius-lg);
 }
 
-/* New Page */
+.show-img-wrapper .listing-img {
+  height: 100%;
+}
+
+.show-img-wrapper .listing-img:hover {
+  transform: scale(1.05);
+}
+
+
+/* =================================
+   4. Form Styling
+   ================================= */
 form input,
 form textarea {
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-md);
   transition: all 0.3s ease;
 }
 
 form input:focus,
 form textarea:focus {
-  border-color: #ff385c;
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 0.2rem rgba(255, 56, 92, 0.1);
 }
 
@@ -125,49 +266,73 @@ form textarea:focus {
   letter-spacing: 0.5px;
 }
 
-/* Show Page */
-/* public/css/style.css */
 
-body {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-}
 
-.image-wrapper {
-  height: 350px;
-  overflow: hidden;
-  background-color: #eee;
-}
 
-.listing-img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
+
+/* =================================
+   6. Footer
+   ================================= */
+footer {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  /* Using a dark background for better contrast and a more modern feel */
+  background-color: #f8f9fa; 
+  border-top: 1px solid #e0e0e0;
 }
 
-.listing-img:hover {
-  transform: scale(1.03);
+.f-info-socials i {
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.card {
-  border-radius: 1rem;
+.f-info-socials i:hover {
+  color: var(--primary-color);
+  transform: scale(1.2);
 }
 
-.btn {
-  border-radius: 0.5rem;
+.f-info-links a:hover {
+  text-decoration: underline;
 }
 
-.filter{
-  opacity: 0.6;
-  /* width: 80px; */
-  /* border: 2px solid black; */
+@media (max-width: 576px) {
+  .f-info {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
 }
-.filter:hover{
-  opacity: 1;
-  cursor: pointer;
+/* =================================
+   Animated Flash Messages
+   ================================= */
+
+/* Define the keyframe animations */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
-.filter p{
-  font-size: 0.8rem;
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px); /* Optional: slight lift effect on fade out */
+  }
+}
+
+/* Apply the animation to the toast component */
+.toast.show {
+  animation: slideInFromRight 0.5s ease-in-out forwards;
+}
+
+/* This class will be added by JavaScript to trigger the fade-out */
+.toast.fade-out {
+  animation: fadeOut 0.5s ease-in-out forwards;
 }

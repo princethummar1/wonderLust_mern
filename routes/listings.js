@@ -32,7 +32,7 @@ router.route("/")
         .get(wrapAsync(listingsController.index))
         //INFO:Create Route
         //validateListing ADD AFTER SOME TIME
-        .post(upload.single('listing[image]'), wrapAsync(listingsController.creatingNewListing))
+        .post(upload.array('listing[image]',5), wrapAsync(listingsController.creatingNewListing))
 
 
 
@@ -45,7 +45,7 @@ router.route('/:id')
         .get( wrapAsync(listingsController.showListing))
         //INFO:Update Route
         //validating left
-        .put(isLogedin, upload.single('listing[image]'), wrapAsync(listingsController.updatedListing))  
+        .put(isLogedin, upload.array('listing[image]',5), wrapAsync(listingsController.updateListing))  
         //INFO:Delete Route      
         .delete(isLogedin, isOwner, wrapAsync(listingsController.destroyListing))
         
