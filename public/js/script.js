@@ -97,3 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial check when the page loads
   handleArrowVisibility();
 });
+
+
+
+
+

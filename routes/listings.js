@@ -34,8 +34,12 @@ router.route("/")
         //validateListing ADD AFTER SOME TIME
         .post(upload.array('listing[image]',5), wrapAsync(listingsController.creatingNewListing))
 
-
-
+//INFO: Search Function
+router.get("/search",wrapAsync(listingsController.searchFn))
+//INFO: Filter For catogories
+router.get("/category/:category", wrapAsync(listingsController.showCategory));
+ //INFO: Filter Route
+router.get("/filter", wrapAsync(listingsController.filterListings));       
 //INFO:New Route
 router.get('/new', isLogedin, listingsController.renderNewFrom)
 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+        <div class="main-content">
+            <h1 class="hero-title">Wanderlust</h1>
+            <p class="hero-subtitle">
+                Discover and book amazing homes and experiences around the world. Your journey begins here.
+            </p>
+            <a href="/listings" class="btn btn-outline-light btn-get-started hero-btn">
+                Get Started <i class="fa-solid fa-arrow-right-long ms-2"></i>
+            </a>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script>
+  // Wait for the DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // Create a GSAP timeline
+    const tl = gsap.timeline();
+
+    // Animate the background first
+    tl.to(".bg-animation", {
+      scale: 1.1,
+      duration: 5,
+      ease: "power2.inOut",
+    });
+
+    // Animate the title
+    tl.from(".hero-title", {
+      y: 50,
+      opacity: 0,
+      duration: 1.5,
+      ease: "power3.out",
+    }, "<0.5"); // Start this animation 0.5s before the previous one ends
+
+    // Animate the subtitle
+    tl.from(".hero-subtitle", {
+      y: 50,
+      opacity: 0,
+      duration: 1.5,
+      ease: "power3.out",
+    }, "<0.3"); // Start this animation 0.3s before the previous one ends
+
+    // Animate the button
+    tl.from(".hero-btn", {
+      scale: 0.8,
+      opacity: 0,
+      duration: 1,
+      ease: "back.out(1.7)",
+    }, "<0.5"); // Start this animation 0.5s before the previous one ends
+  });
+</script>
+
+</body>
+
+</html>

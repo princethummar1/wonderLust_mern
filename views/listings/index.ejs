@@ -11,38 +11,39 @@
             <i class="fa-solid fa-chevron-left"></i>
           </button>
           <div id="filter-scroll-container" class="d-flex gap-4">
-            <div class="filter text-center">
+
+            <a href="/listings/category/Trending" class="filter text-center text-decoration-none text-dark">
               <div><i class="fa-solid fa-fire"></i></div>
               <p>Trending</p>
-            </div>
-            <div class="filter text-center">
+            </a>
+            <a href="/listings/category/Apartment" class="filter text-center text-decoration-none text-dark">
               <div><i class="fa-solid fa-building"></i></div>
               <p>Apartments</p>
-            </div>
-            <div class="filter text-center">
+            </a>
+            <a href="/listings/category/Villa" class="filter text-center text-decoration-none text-dark">
               <div><i class="fa-solid fa-house-chimney-window"></i></div>
               <p>Villas</p>
-            </div>
-            <div class="filter text-center">
+            </a>
+            <a href="/listings/category/Office" class="filter text-center text-decoration-none text-dark">
               <div><i class="fa-solid fa-briefcase"></i></div>
               <p>Office Space</p>
-            </div>
-            <div class="filter text-center">
+            </a>
+            <a href="/listings/category/Hotel" class="filter text-center text-decoration-none text-dark">
               <div><i class="fa-solid fa-hotel"></i></div>
               <p>Hotels</p>
-            </div>
-            <div class="filter text-center">
+            </a>
+            <a href="/listings/category/Amazing Pools" class="filter text-center text-decoration-none text-dark">
               <div><i class="fa-solid fa-person-swimming"></i></div>
               <p>Amazing Pools</p>
-            </div>
-            <div class="filter text-center">
+            </a>
+            <a href="/listings/category/Countryside" class="filter text-center text-decoration-none text-dark">
               <div><i class="fa-solid fa-mountain-sun"></i></div>
               <p>Countryside</p>
-            </div>
-            <div class="filter text-center">
+            </a>
+            <a href="/listings/category/Beachfront" class="filter text-center text-decoration-none text-dark">
               <div><i class="fa-solid fa-umbrella-beach"></i></div>
               <p>Beachfront</p>
-            </div>
+            </a>
           </div>
           <button class="btn btn-light filter-arrow" id="filter-arrow-right">
             <i class="fa-solid fa-chevron-right"></i>
@@ -91,54 +92,145 @@
                 <h6 class="fw-bold my-3">Property Type</h6>
                 <div class="row g-3 mb-4">
                   <div class="col-md-6">
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Apartment"
-                        name="propertyType[]" id="typeApartment"><label class="form-check-label"
-                        for="typeApartment">Apartment</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Villa"
-                        name="propertyType[]" id="typeVilla"><label class="form-check-label"
-                        for="typeVilla">Villa</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Independent House"
-                        name="propertyType[]" id="typeHouse"><label class="form-check-label" for="typeHouse">Independent
-                        House</label></div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Office"
-                        name="propertyType[]" id="typeOffice"><label class="form-check-label"
-                        for="typeOffice">Office</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Hotel"
-                        name="propertyType[]" id="typeHotel"><label class="form-check-label"
-                        for="typeHotel">Hotel</label></div>
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Plot"
-                        name="propertyType[]" id="typePlot"><label class="form-check-label" for="typePlot">Plot</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Apartment" name="propertyType"
+                        id="typeApartment">
+                      <label class="form-check-label" for="typeApartment">Apartment</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Villa" name="propertyType" id="typeVilla">
+                      <label class="form-check-label" for="typeVilla">Villa</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Studio" name="propertyType"
+                        id="typeStudio">
+                      <label class="form-check-label" for="typeStudio">Studio</label>
                     </div>
                   </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Independent House" name="propertyType"
+                        id="typeHouse">
+                      <label class="form-check-label" for="typeHouse">Independent House</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Plot" name="propertyType" id="typePlot">
+                      <label class="form-check-label" for="typePlot">Plot</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Office" name="propertyType"
+                        id="typeOffice">
+                      <label class="form-check-label" for="typeOffice">Office</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Shop" name="propertyType" id="typeShop">
+                      <label class="form-check-label" for="typeShop">Shop</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Showroom" name="propertyType"
+                        id="typeShowroom">
+                      <label class="form-check-label" for="typeShowroom">Showroom</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Warehouse" name="propertyType"
+                        id="typeWarehouse">
+                      <label class="form-check-label" for="typeWarehouse">Warehouse</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Industrial Unit" name="propertyType"
+                        id="typeIndustrial">
+                      <label class="form-check-label" for="typeIndustrial">Industrial Unit</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Hotel" name="propertyType" id="typeHotel">
+                      <label class="form-check-label" for="typeHotel">Hotel</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Resort" name="propertyType"
+                        id="typeResort">
+                      <label class="form-check-label" for="typeResort">Resort</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Guest House" name="propertyType"
+                        id="typeGuestHouse">
+                      <label class="form-check-label" for="typeGuestHouse">Guest House</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Hostel" name="propertyType"
+                        id="typeHostel">
+                      <label class="form-check-label" for="typeHostel">Hostel</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Service Apartment" name="propertyType"
+                        id="typeServiceApartment">
+                      <label class="form-check-label" for="typeServiceApartment">Service Apartment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Agricultural Land" name="propertyType"
+                        id="typeAgricultural">
+                      <label class="form-check-label" for="typeAgricultural">Agricultural Land</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Co-working" name="propertyType"
+                        id="typeCoworking">
+                      <label class="form-check-label" for="typeCoworking">Co-working</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Storage Unit" name="propertyType"
+                        id="typeStorage">
+                      <label class="form-check-label" for="typeStorage">Storage Unit</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Special Purpose" name="propertyType"
+                        id="typeSpecialPurpose">
+                      <label class="form-check-label" for="typeSpecialPurpose">Special Purpose</label>
+                    </div>
+                  </div>
+
                 </div>
+
                 <hr>
 
                 <h6 class="fw-bold my-3">Amenities</h6>
                 <div class="row g-3">
                   <div class="col-md-4">
                     <div class="form-check"><input class="form-check-input" type="checkbox" value="Pool"
-                        name="amenities[]" id="amenityPool"><label class="form-check-label" for="amenityPool">🏊
+                        name="amenities" id="amenityPool"><label class="form-check-label" for="amenityPool">🏊
                         Pool</label></div>
                     <div class="form-check"><input class="form-check-input" type="checkbox" value="Parking"
-                        name="amenities[]" id="amenityParking"><label class="form-check-label" for="amenityParking">🚗
+                        name="amenities" id="amenityParking"><label class="form-check-label" for="amenityParking">🚗
                         Parking</label></div>
                   </div>
                   <div class="col-md-4">
-                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Gym"
-                        name="amenities[]" id="amenityGym"><label class="form-check-label" for="amenityGym">🏋️
+                    <div class="form-check"><input class="form-check-input" type="checkbox" value="Gym" name="amenities"
+                        id="amenityGym"><label class="form-check-label" for="amenityGym">🏋️
                         Gym</label></div>
                     <div class="form-check"><input class="form-check-input" type="checkbox" value="Security"
-                        name="amenities[]" id="amenitySecurity"><label class="form-check-label" for="amenitySecurity">🔒
+                        name="amenities" id="amenitySecurity"><label class="form-check-label" for="amenitySecurity">🔒
                         Security</label></div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-check"><input class="form-check-input" type="checkbox" value="Central AC"
-                        name="amenities[]" id="amenityAC"><label class="form-check-label" for="amenityAC">❄️ Central
+                        name="amenities" id="amenityAC"><label class="form-check-label" for="amenityAC">❄️ Central
                         AC</label></div>
                     <div class="form-check"><input class="form-check-input" type="checkbox" value="Power Backup"
-                        name="amenities[]" id="amenityPower"><label class="form-check-label" for="amenityPower">🔋 Power
+                        name="amenities" id="amenityPower"><label class="form-check-label" for="amenityPower">🔋 Power
                         Backup</label></div>
                   </div>
                 </div>
@@ -160,6 +252,12 @@
             <div class="card listing-card h-100 shadow-sm border-0 rounded-4">
               <a href="/listings/<%= listing._id %>" class="stretched-link"></a>
               <img src="<%= listing.image[0].url %>" class="card-img-top listing-img" alt="<%= listing.title %>">
+              <span class="purpose-badge badge position-absolute top-0 start-0 m-2 
+  <%= listing.purpose === 'Rent' ? 'rent' : 'sale' %>">
+                <%= listing.purpose %>
+              </span>
+
+
               <div class="card-body d-flex flex-column">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <h5 class="card-title fw-bold mb-0 text-truncate">
@@ -176,7 +274,16 @@
                   <%= listing.location %>, <%= listing.country %>
                 </p>
                 <div class="mt-auto">
-                  <p class="card-text mb-0"><strong>₹<%= listing.price.toLocaleString("en-IN") %></strong> / night</p>
+                  <p class="card-text mb-0">
+                    <strong>₹<%= listing.price.toLocaleString("en-IN") %></strong>
+                    <% if (listing.purpose==='Rent' ) { %>
+                      <% if (listing.usage==='Hospitality' ) { %>
+                        / night
+                        <% } else { %>
+                          / month
+                          <% } %>
+                            <% } %>
+                  </p>
                 </div>
               </div>
             </div>
